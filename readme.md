@@ -1,120 +1,85 @@
-# Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=master)](https://travis-ci.org/spring-projects/spring-petclinic/)
+# Introduction
 
-## Understanding the Spring Petclinic application with a few diagrams
-<a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
+The aim of this repo is to measure the size of an spring boot application and its Docker size. 
+Instead of creating a new spring boot demo from scratch, we have based on 
+[Spring PetClinic](https://github.com/spring-projects/spring-petclinic).
 
-## Running petclinic locally
+# Spring Boot artifact's size
+
+Build PetClinic application:
+
 ```
 	git clone https://github.com/spring-projects/spring-petclinic.git
 	cd spring-petclinic
-	./mvnw spring-boot:run
+	./mvnw clean package
 ```
 
-You can then access petclinic here: http://localhost:8080/
-
-<img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
-
-## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/spring-projects/spring-petclinic/issues
-
-
-## Database configuration
-
-In its default configuration, Petclinic uses an in-memory database (HSQLDB) which
-gets populated at startup with data. A similar setup is provided for MySql in case a persistent database configuration is needed.
-Note that whenever the database type is changed, the data-access.properties file needs to be updated and the mysql-connector-java artifact from the pom.xml needs to be uncommented.
-
-You could start a MySql database with docker:
+Measure the jar files:
 
 ```
-docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:3306 mysql:5.7.8
+    ls -lh target/*.jar*
 ```
 
-## Working with Petclinic in Eclipse/STS
+Result:
 
-### prerequisites
-The following items should be installed in your system:
-* Apache Maven (https://maven.apache.org/install.html)
-* git command line tool (https://help.github.com/articles/set-up-git)
-* Eclipse with the m2e plugin (m2e is installed by default when using the STS (http://www.springsource.org/sts) distribution of Eclipse)
-
-Note: when m2e is available, there is an m2 icon in Help -> About dialog.
-If m2e is not there, just follow the install process here: http://www.eclipse.org/m2e/m2e-downloads.html
-
-
-### Steps:
-
-1) In the command line
 ```
-git clone https://github.com/spring-projects/spring-petclinic.git
-```
-2) Inside Eclipse
-```
-File -> Import -> Maven -> Existing Maven project
+-rw-r--r--  1 inigo  staff    37M May  8 07:56 target/spring-petclinic-2.0.0.BUILD-SNAPSHOT.jar
+-rw-r--r--  1 inigo  staff   372K May  8 07:56 target/spring-petclinic-2.0.0.BUILD-SNAPSHOT.jar.original
 ```
 
+The file named `spring-petclinic-2.0.0.BUILD-SNAPSHOT` is the resulting fat jar because it includes
+PetClinic's code and its dependencies. The other file, suffixed `.original` is just PetClinic's code
+without its dependencies. The result is that our code size is `372KB` and the dependencies' `37MB`. 
 
-## Looking for something in particular?
+# Docker image's size
 
-|Spring Boot Configuration | Class or Java property files  |
-|--------------------------|---|
-|The Main Class | [PetClinicApplication](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java) |
-|Properties Files | [application.properties](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/resources) |
-|Caching | [CacheConfig](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/system/CacheConfig.java) |
+Build PetClinic's Docker image:
 
-## Interesting Spring Petclinic branches and forks
+```
+    ./mvnw dockerfile:build
+```
 
-The Spring Petclinic master branch in the main
-[spring-projects](https://github.com/spring-projects/spring-petclinic)
-GitHub org is the "canonical" implementation, currently based on
-Spring Boot and Thymeleaf. There are quite a few forks in a special
-GitHub org [spring-petclinic](https://github.com/spring-petclinic). If
-you have a special interest in a different technology stack that could
-be used to implement the Pet Clinic then please join the community
-there.
+Measure the image size:
 
-| Link                               | Main technologies |
-|------------------------------------|-------------------|
-| [spring-framework-petclinic][]     | Spring Framework XML configuration, JSP pages, 3 persistence layers: JDBC, JPA and Spring Data JPA |
-| [javaconfig branch][]              | Same frameworks as the [spring-framework-petclinic][] but with Java Configuration instead of XML |
-| [spring-petclinic-angularjs][]     | AngularJS 1.x, Spring Boot and Spring Data JPA |
-| [spring-petclinic-angular][]       | Angular 4 front-end of the Petclinic REST API [spring-petclinic-rest][] |
-| [spring-petclinic-microservices][] | Distributed version of Spring Petclinic built with Spring Cloud |
-| [spring-petclinic-reactjs][]       | ReactJS (with TypeScript) and Spring Boot |
-| [spring-petclinic-graphql][]       | GraphQL version based on React Appolo, TypeScript and GraphQL Spring boot starter |
-| [spring-petclinic-kotlin][]        | Kotlin version of [spring-petclinic][] |
-| [spring-petclinic-rest][]          | Backend REST API |
+```
+    docker image ls | grep spring-petclinic
+```
 
+Result:
 
-## Interaction with other open source projects
+```
+org.springframework.samples/spring-petclinic   latest              315d50e3a3c9        2 minutes ago       140MB
+```
 
-One of the best parts about working on the Spring Petclinic application is that we have the opportunity to work in direct contact with many Open Source projects. We found some bugs/suggested improvements on various topics such as Spring, Spring Data, Bean Validation and even Eclipse! In many cases, they've been fixed/implemented in just a few days.
-Here is a list of them:
+We can see that size of the artifact has increased from 37MB to 140MB. This is mainly because the 
+Docker image includes the JDK and Linux images. Run this command to prove it:
 
-| Name | Issue |
-|------|-------|
-| Spring JDBC: simplify usage of NamedParameterJdbcTemplate | [SPR-10256](https://jira.springsource.org/browse/SPR-10256) and [SPR-10257](https://jira.springsource.org/browse/SPR-10257) |
-| Bean Validation / Hibernate Validator: simplify Maven dependencies and backward compatibility |[HV-790](https://hibernate.atlassian.net/browse/HV-790) and [HV-792](https://hibernate.atlassian.net/browse/HV-792) |
-| Spring Data: provide more flexibility when working with JPQL queries | [DATAJPA-292](https://jira.springsource.org/browse/DATAJPA-292) |
+```
+    docker image history org.springframework.samples/spring-petclinic
+```
 
+The result shows the different layers added to the Docker image:
 
-# Contributing
+```
+Inigos-MacBook-Pro:spring-petclinic inigo$ docker image history org.springframework.samples/spring-petclinic
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+315d50e3a3c9        8 minutes ago       /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "/usr…   0B                  
+e140a42c4afb        8 minutes ago       /bin/sh -c #(nop)  EXPOSE 8080                  0B                  
+e0adf50171a8        8 minutes ago       /bin/sh -c #(nop) COPY file:f7fb05966b1ffa8d…   38.3MB              
+54679c3ebdc2        8 minutes ago       /bin/sh -c #(nop)  ARG JAR_FILE                 0B                  
+4528db8c5c97        8 minutes ago       /bin/sh -c #(nop)  VOLUME [/tmp]                0B                  
+224765a6bdbe        3 months ago        /bin/sh -c set -x  && apk add --no-cache   o…   97.4MB              
+<missing>           3 months ago        /bin/sh -c #(nop)  ENV JAVA_ALPINE_VERSION=8…   0B                  
+<missing>           3 months ago        /bin/sh -c #(nop)  ENV JAVA_VERSION=8u151       0B                  
+<missing>           3 months ago        /bin/sh -c #(nop)  ENV PATH=/usr/local/sbin:…   0B                  
+<missing>           3 months ago        /bin/sh -c #(nop)  ENV JAVA_HOME=/usr/lib/jv…   0B                  
+<missing>           3 months ago        /bin/sh -c {   echo '#!/bin/sh';   echo 'set…   87B                 
+<missing>           3 months ago        /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0B                  
+<missing>           3 months ago        /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+<missing>           3 months ago        /bin/sh -c #(nop) ADD file:093f0723fa46f6cdb…   4.15MB
+```
 
-The [issue tracker](https://github.com/spring-projects/spring-petclinic/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
+The `4.15MB` image is the Alpine Linux image and the `97.4MB` image is the JDK8 image (it 
+includes the previous Alpine Linux image as well). The sum of all them results in an image of
+`140MB` which includes Linux OS, JDK8, PetClinic's code and dependencies' jar.  
 
-For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>. If you have not previously done so, please fill out and submit the https://cla.pivotal.io/sign/spring[Contributor License Agreement].
-
-# License
-
-The Spring PetClinic sample application is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
-
-[spring-petclinic]: https://github.com/spring-projects/spring-petclinic
-[spring-framework-petclinic]: https://github.com/spring-petclinic/spring-framework-petclinic
-[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs 
-[javaconfig branch]: https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig
-[spring-petclinic-angular]: https://github.com/spring-petclinic/spring-petclinic-angular
-[spring-petclinic-microservices]: https://github.com/spring-petclinic/spring-petclinic-microservices
-[spring-petclinic-reactjs]: https://github.com/spring-petclinic/spring-petclinic-reactjs
-[spring-petclinic-graphql]: https://github.com/spring-petclinic/spring-petclinic-graphql
-[spring-petclinic-kotlin]: https://github.com/spring-petclinic/spring-petclinic-kotlin
-[spring-petclinic-rest]: https://github.com/spring-petclinic/spring-petclinic-rest
