@@ -52,7 +52,7 @@ org.springframework.samples/spring-petclinic   latest              315d50e3a3c9 
 ```
 
 We can see that size of the artifact has increased from 37MB to 140MB. This is mainly because the 
-Docker image includes the JDK and Linux images. Run this command to prove it:
+Docker image includes the JDK and Linux images. Run this command to check it:
 
 ```
     docker image history org.springframework.samples/spring-petclinic
@@ -83,3 +83,4 @@ The `4.15MB` image is the Alpine Linux image and the `97.4MB` image is the JDK8 
 includes the previous Alpine Linux image as well). The sum of all them results in an image of
 `140MB` which includes Linux OS, JDK8, PetClinic's code and dependencies' jar.  
 
+> Different Linux image comparison at https://github.com/gliderlabs/docker-alpine#why 
