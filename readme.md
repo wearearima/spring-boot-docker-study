@@ -9,9 +9,9 @@ Instead of creating a new spring boot demo from scratch, we have based on
 Build PetClinic application:
 
 ```
-	git clone https://github.com/wearearima/spring-boot-docker-image-size.git
-	cd spring-petclinic
-	./mvnw clean package
+    git clone https://github.com/wearearima/spring-boot-docker-image-size.git
+    cd spring-petclinic
+    ./mvnw clean package
 ```
 
 Measure the jar files:
