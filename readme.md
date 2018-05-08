@@ -84,3 +84,9 @@ includes the previous Alpine Linux image as well). The sum of all them results i
 `140MB` which includes Linux OS, JDK8, PetClinic's code and dependencies' jar.  
 
 > Different Linux image comparison at https://github.com/gliderlabs/docker-alpine#why 
+
+# Credits
+
+Original PetClinic by https://www.spring.io
+
+Docker configuration by https://www.arima.eu
