@@ -28,7 +28,7 @@ Result:
 ```
 
 The file named `spring-petclinic-2.0.0.BUILD-SNAPSHOT` is the resulting fat jar because it includes
-PetClinic's code and its dependencies. The other file, suffixed `.original` is just PetClinic's code
+PetClinic's code and its dependencies. The other file, suffixed `.original`, is just PetClinic's code
 without its dependencies. The result is that our code size is `372KB` and the dependencies' `37MB`. 
 
 # Docker image's size
