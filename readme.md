@@ -90,3 +90,5 @@ includes the previous Alpine Linux image as well). The sum of all them results i
 Original PetClinic by https://www.spring.io
 
 Docker configuration by https://www.arima.eu
+
+![ARIMA](https://arima.eu/arima-claim.png)
