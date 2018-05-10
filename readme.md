@@ -4,7 +4,9 @@ The aim of this repo is to measure the size of an spring boot application and it
 Instead of creating a new spring boot demo from scratch, we have based on 
 [Spring PetClinic](https://github.com/spring-projects/spring-petclinic).
 
-# Spring Boot artifact's size
+#  Size
+
+## Spring Boot artifact's size
 
 Build PetClinic application:
 
@@ -31,7 +33,7 @@ The file named `spring-petclinic-2.0.0.BUILD-SNAPSHOT` is the resulting fat jar 
 PetClinic's code and its dependencies. The other file, suffixed `.original`, is just PetClinic's code
 without its dependencies. The result is that our code size is `372KB` and the dependencies' `37MB`. 
 
-# Docker image's size
+## Docker image's size
 
 Build PetClinic's Docker image:
 
@@ -85,9 +87,52 @@ includes the previous Alpine Linux image as well). The sum of all them results i
 
 > Different Linux image comparison at https://github.com/gliderlabs/docker-alpine#why 
 
+# Memory usage
+
+## Spring Boot artifact's memory usage
+
+Run PetClinic application with this command:
+
+```
+java -jar target/spring-petclinic-2.0.0.BUILD-SNAPSHOT.jar
+```
+
+Open `JConsole` (or other profiler such as YourKit) and measure the heap after executing Garbage Collector (GC). The 
+result is this:
+
+![jconsole-result](jconsole/result.png)
+
+With no load the application's heap consumption is around 60MB. However, the memory consumption is bigger than just the
+heap, so let's measure it using ``ps`` command:
+
+```
+Inigos-MacBook-Pro:spring-boot-docker-size inigo$ ps aux 43820
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+inigo 43820   0.2  4.8 10285672 801844 s001  S+    6:00PM   0:50.76 /usr/bin/java -jar target/spring-petclinic-2.0.0.BUILD
+```
+
+We can see that PetClinic's process actually is using almost `80MB of memory.  
+
+## Docker image's memory usage
+
+Run a PetClinic container with this command:
+
+```
+docker run org.springframework.samples/spring-petclinic
+```
+
+Executing ``docker stats`` we can find out how much memory is using the container with no load:
+
+```
+CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT   MEM %               NET I/O             BLOCK I/O           PIDS
+4fd5cd5f644d        youthful_feynman    0.26%               521MiB / 5.818GiB   8.74%               1.72kB / 0B         25.3MB / 0B         34
+```
+
+So, the container uses ``521MB`` of memory. 
+
 # Credits
 
-Original PetClinic by https://www.spring.io
+Original PetClinic by https://www.s`pring.io
 
 Docker configuration by https://www.arima.eu
 
