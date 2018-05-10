@@ -9,8 +9,8 @@ Instead of creating a new spring boot demo from scratch, we have based on
 Build PetClinic application:
 
 ```
-    git clone https://github.com/wearearima/spring-boot-docker-image-size.git
-    cd spring-petclinic
+    git clone https://github.com/wearearima/spring-boot-docker-size.git
+    cd spring-boot-docker-size
     ./mvnw clean package
 ```
 
