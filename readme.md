@@ -132,7 +132,7 @@ So, the container uses ``521MB`` of memory.
 
 # Credits
 
-Original PetClinic by https://www.s`pring.io
+Original PetClinic by https://www.spring.io
 
 Docker configuration by https://www.arima.eu
 
