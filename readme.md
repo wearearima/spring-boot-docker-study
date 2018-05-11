@@ -130,6 +130,8 @@ CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT   
 
 So, the container uses ``521MB`` of memory. 
 
+> Interesting resource about measuring Spring Boot: https://spring.io/blog/2015/12/10/spring-boot-memory-performance
+
 # Credits
 
 Original PetClinic by https://www.spring.io
