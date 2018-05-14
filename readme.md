@@ -132,6 +132,18 @@ So, the container uses ``521MB`` of memory.
 
 > Interesting resource about measuring Spring Boot: https://spring.io/blog/2015/12/10/spring-boot-memory-performance
 
+# Summary
+
+| Feature                                           | Data          |
+| ------------------------------------------------- | ------------- |
+| Spring Boot App disk usage                        | 37MB          |
+| Spring Boot App disk usage (without dependencies) | 372KB         |
+| Docker Container disk usage                       | 140MB         |
+| Spring Boot App heap consumption                  | 60MB          |
+| Spring Boot App memory usage                      | 80MB          |
+| Docker Container memory usage                     | 512MB         |
+
+
 # Credits
 
 Original PetClinic by https://www.spring.io
