@@ -1,6 +1,6 @@
 # Introduction
 
-The aim of this repo is to measure the size of an spring boot application and its Docker size. 
+The aim of this repo is to measure some features of an spring boot application and its Docker size. 
 Instead of creating a new spring boot demo from scratch, we have based on 
 [Spring PetClinic](https://github.com/spring-projects/spring-petclinic).
 
@@ -53,7 +53,7 @@ Result:
 org.springframework.samples/spring-petclinic   latest              315d50e3a3c9        2 minutes ago       140MB
 ```
 
-We can see that size of the artifact has increased from 37MB to 140MB. This is mainly because the 
+We can see that size of the artifact has increased from `37MB` to `140MB. This is mainly because the 
 Docker image includes the JDK and Linux images. Run this command to check it:
 
 ```
@@ -102,7 +102,7 @@ result is this:
 
 ![jconsole-result](jconsole/result.png)
 
-With no load the application's heap consumption is around 60MB. However, the memory consumption is bigger than just the
+With no load the application's heap consumption is around `60MB. However, the memory consumption is bigger than just the
 heap, so let's measure it using ``ps`` command:
 
 ```
@@ -111,7 +111,7 @@ USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
 inigo 43820   0.2  4.8 10285672 801844 s001  S+    6:00PM   0:50.76 /usr/bin/java -jar target/spring-petclinic-2.0.0.BUILD
 ```
 
-We can see that PetClinic's process actually is using almost `80MB of memory.  
+We can see that PetClinic's process actually is using almost `80MB` of memory.  
 
 ## Docker image's memory usage
 
