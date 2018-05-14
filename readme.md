@@ -53,7 +53,7 @@ Result:
 org.springframework.samples/spring-petclinic   latest              315d50e3a3c9        2 minutes ago       140MB
 ```
 
-We can see that size of the artifact has increased from `37MB` to `140MB. This is mainly because the 
+We can see that size of the artifact has increased from `37MB` to `140MB`. This is mainly because the 
 Docker image includes the JDK and Linux images. Run this command to check it:
 
 ```
