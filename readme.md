@@ -1,7 +1,7 @@
 # Introduction
 
-The aim of this repo is to measure some features of an spring boot application and its Docker size. 
-Instead of creating a new spring boot demo from scratch, we have based on 
+The aim of this repo is to measure some features of an Spring Boot application and its Docker image. 
+Instead of creating a new Spring Boot demo from scratch, it is based on 
 [Spring PetClinic](https://github.com/spring-projects/spring-petclinic).
 
 #  Size
