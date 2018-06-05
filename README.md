@@ -150,4 +150,4 @@ Original PetClinic by https://www.spring.io
 
 Docker configuration by https://www.arima.eu
 
-![ARIMA](https://arima.eu/arima-claim.png)
+![ARIMA Software Design](https://arima.eu/arima-claim.png)
