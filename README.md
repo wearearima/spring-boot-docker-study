@@ -139,7 +139,7 @@ So, the container uses ``507MB`` of memory.
 | Spring Boot App disk usage                        | 37MB              | 43M               |
 | Spring Boot App disk usage (without dependencies) | 372KB             | 372KB             |
 | Docker Container disk usage                       | 140MB             | 147MB             |
-| Spring Boot App heap consumption                  | 60MB              | 42MB              |
+| Spring Boot App heap consumption                  | 60MB              | 45MB              |
 | Spring Boot App memory usage                      | 80MB              | 60MB              |
 | Docker Container memory usage                     | 512MB             | 507MB             |
 
