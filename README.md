@@ -102,7 +102,7 @@ result is this:
 
 ![jconsole-result](jconsole/result.png)
 
-With no load the application's heap consumption is around `42MB` . However, the memory consumption is bigger than just the
+With no load the application's heap consumption is around `45MB` . However, the memory consumption is bigger than just the
 heap, so let's measure it using ``ps`` command:
 
 ```
