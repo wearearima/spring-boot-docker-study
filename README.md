@@ -50,10 +50,10 @@ docker image ls | grep spring-petclinic
 Result:
 
 ```
-org.springframework.samples/spring-petclinic                     latest                  f64e33676fba        35 seconds ago      150MB
+org.springframework.samples/spring-petclinic                     latest                  b0379064ade1        8 minutes ago       135MB
 ```
 
-We can see that size of the artifact has increased from `43MB` to `150MB`. This is mainly because the 
+We can see that size of the artifact has increased from `43MB` to `135MB`. This is mainly because the 
 Docker image includes the JDK and Linux images. Run this command to check it:
 
 ```
@@ -65,24 +65,23 @@ The result shows the different layers added to the Docker image:
 ```
 Inigos-MacBook-Pro:spring-petclinic inigo$ docker image history org.springframework.samples/spring-petclinic
 IMAGE               CREATED              CREATED BY                                      SIZE                COMMENT
-f64e33676fba        About a minute ago   /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "/usr…   0B                  
-514ea9d949f4        About a minute ago   /bin/sh -c #(nop)  EXPOSE 8080                  0B                  
-0c5656961ef9        About a minute ago   /bin/sh -c #(nop) COPY file:f694d1e78b9e3890…   44.9MB              
-5a0aa4f6ec7b        About a minute ago   /bin/sh -c #(nop)  ARG JAR_FILE                 0B                  
-b055dd6e77e1        About a minute ago   /bin/sh -c #(nop)  VOLUME [/tmp]                0B                  
-a3562aa0b991        3 months ago         /bin/sh -c set -x  && apk add --no-cache   o…   99.3MB              
-<missing>           3 months ago         /bin/sh -c #(nop)  ENV JAVA_ALPINE_VERSION=8…   0B                  
-<missing>           3 months ago         /bin/sh -c #(nop)  ENV JAVA_VERSION=8u212       0B                  
-<missing>           3 months ago         /bin/sh -c #(nop)  ENV PATH=/usr/local/sbin:…   0B                  
-<missing>           3 months ago         /bin/sh -c #(nop)  ENV JAVA_HOME=/usr/lib/jv…   0B                  
-<missing>           3 months ago         /bin/sh -c {   echo '#!/bin/sh';   echo 'set…   87B                 
-<missing>           3 months ago         /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0B                  
-<missing>           3 months ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
-<missing>           3 months ago         /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f6a…   5.53MB
+9b2aa130f49c        2 minutes ago       /bin/sh -c #(nop)  CMD ["java" "-Djava.secur…   0B                  
+5892e052b323        18 minutes ago      /bin/sh -c #(nop)  EXPOSE 8080                  0B                  
+d7a991c088ba        18 minutes ago      /bin/sh -c #(nop) COPY file:618d974f9a58beb4…   44.9MB              
+9fc7d04988fc        18 minutes ago      /bin/sh -c #(nop)  ARG JAR_FILE                 0B                  
+1e56e8615623        18 minutes ago      /bin/sh -c #(nop)  VOLUME [/tmp]                0B                  
+5597a78b0993        24 hours ago        /bin/sh -c #(nop)  ENV JAVA_HOME=/opt/java/o…   0B                  
+<missing>           24 hours ago        /bin/sh -c set -eux;     apk add --no-cache …   75.7MB              
+<missing>           24 hours ago        /bin/sh -c #(nop) COPY multi:cf4be6a9ef2b0c0…   15.6kB              
+<missing>           24 hours ago        /bin/sh -c #(nop)  ENV JAVA_VERSION=jdk8u222…   0B                  
+<missing>           24 hours ago        /bin/sh -c apk add --no-cache --virtual .bui…   8.88MB              
+<missing>           24 hours ago        /bin/sh -c #(nop)  ENV LANG=en_US.UTF-8 LANG…   0B                  
+<missing>           2 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+<missing>           2 weeks ago         /bin/sh -c #(nop) ADD file:fe64057fbb83dccb9…   5.58MB   
 ```
 
-The `5.53MB` image is the Alpine Linux image and the `99.3MB` image is the JDK8 image. The sum of all them results in an image of
-`150MB` which includes Linux OS, JDK8, PetClinic's code and dependencies' jar.  
+The `5.58MB` image is the Alpine Linux image and the `75.7MB` image is the JDK8 image. The sum of all layers results in 
+an image of `135MB` which includes Linux OS, JDK8, PetClinic's code and dependencies' jar.  
 
 > Different Linux image comparison at https://github.com/gliderlabs/docker-alpine#why 
 
@@ -132,10 +131,10 @@ Executing ``docker stats`` we can find out how much memory is using the containe
 
 ```
 CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
-970acf08cdb0        jovial_khayyam      0.48%               586.3MiB / 5.818GiB   9.84%               2.7kB / 8.74kB      164kB / 0B          33
+9cceb1ac2a04        dreamy_golick       0.66%               578.4MiB / 5.818GiB   9.71%               828B / 0B           0B / 0B             33
 ```
 
-So, the container uses ``586MB`` of memory. 
+So, the container uses ``578MB`` of memory. 
 
 > Interesting resource about measuring Spring Boot: https://spring.io/blog/2015/12/10/spring-boot-memory-performance
 
@@ -149,7 +148,7 @@ So, the container uses ``586MB`` of memory.
 | Spring Boot App startup time                      | 5,54 seconds      |
 | Spring Boot App heap consumption                  | 60MB              |
 | Spring Boot App memory usage                      | 650MB             |
-| Docker Container memory usage                     | 586MB             |
+| Docker Container memory usage                     | 578MB             |
 
 # Credits
 
