@@ -99,8 +99,6 @@ Started PetClinicApplication in 5.54 seconds (JVM running for 5.902)
 
 # Memory usage
 
-## Spring Boot artifact's memory usage
-
 After navigating through the application to make sure all beans are loaded, open `JConsole` or other profiler such as 
 YourKit. Measure the heap after executing Garbage Collector (GC). 
 
@@ -117,23 +115,6 @@ inigo   14526   0.0  4.0 10241740 669648 s004  S+    4:25PM   0:33.05 /usr/bin/j
 
 We can see that PetClinic's process actually is using almost `650MB` of memory.  
 
-## Docker image's memory usage
-
-Run a PetClinic container with this command:
-
-```
-docker run -p 8080:8080 org.springframework.samples/spring-petclinic
-```
-
-Executing ``docker stats`` we can find out how much memory is using the container with no load:
-
-```
-CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
-9cceb1ac2a04        dreamy_golick       0.66%               578.4MiB / 5.818GiB   9.71%               828B / 0B           0B / 0B             33
-```
-
-So, the container uses ``578MB`` of memory. 
-
 > Interesting resource about measuring Spring Boot: https://spring.io/blog/2015/12/10/spring-boot-memory-performance
 
 # Summary
@@ -146,7 +127,6 @@ So, the container uses ``578MB`` of memory.
 | Spring Boot App startup time                      | 5,54 seconds      |
 | Spring Boot App heap consumption                  | 60MB              |
 | Spring Boot App memory usage                      | 650MB             |
-| Docker Container memory usage                     | 578MB             |
 
 # Credits
 
