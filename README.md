@@ -110,7 +110,7 @@ heap, so let's measure it using ``ps`` command:
 ```
 Inigos-MacBook-Pro:spring-boot-docker-size inigo$ ps aux 14526
 USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
-inigo   14526   0.0  4.0 10241740 669648 s004  S+    4:25PM   0:33.05 /usr/bin/java -jar target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar```
+inigo   14526   0.0  4.0 10241740 669648 s004  S+    4:25PM   0:33.05 /usr/bin/java -jar target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
 ```
 
 We can see that PetClinic's process actually is using almost `650MB` of memory.  
