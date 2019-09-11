@@ -207,17 +207,26 @@
           </dependency>
         </dependencies>
       </plugin>
-    <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>dockerfile-maven-plugin</artifactId>
-        <version>1.4.0</version>
-        <configuration>
-            <repository>${project.groupId}/${project.artifactId}</repository>
-            <buildArgs>
-                <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-            </buildArgs>
-        </configuration>
-    </plugin>
+
+        <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>1.5.1</version>
+            <configuration>
+                <from>
+                    <image>adoptopenjdk/openjdk8:alpine-slim</image>
+                </from>
+                <to>
+                    <image>${project.groupId}/${project.artifactId}:${project.version}</image>
+                </to>
+                <container>
+                    <jvmFlags>
+                        <jvmFlag>-Djava.security.egd=file:/dev/./urandom</jvmFlag>
+                    </jvmFlags>
+                </container>
+            </configuration>
+        </plugin>
+
     </plugins>
   </build>
 
