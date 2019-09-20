@@ -4,6 +4,16 @@ The aim of this repo is to measure some features of an Spring Boot application a
 Instead of creating a new Spring Boot demo from scratch, it is based on 
 [Spring PetClinic](https://github.com/spring-projects/spring-petclinic).
 
+# Changes
+
+We've applied some advices of [this article](https://spring.io/blog/2018/12/12/how-fast-is-spring#tldr-how-do-i-make-my-app-go-faster):
+
+ - Disable actuators
+ - Disable JMX
+ - Use `slf4j-jdk14`for logging
+
+Additionaly, we'll run the application with `mysql` profiled enabled to avoid h2 database's creation and initialization time. 
+
 #  Size
 
 ## Spring Boot artifact's size
@@ -85,16 +95,22 @@ an image of `136MB` which includes Linux OS, JDK8, PetClinic's code and dependen
 
 # Startup time
 
+Start Mysql server before running the application:
+
+```
+docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:3306 mysql:5.7.8
+```
+
 Run PetClinic application with this command:
 
 ```
-java -jar target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
+java -jar  -Dspring.profiles.active=mysql target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
 ```
 
-The applications starts en `5,54 seconds` using AdoptOpenJDK 1.8.0_222-b10:
+The applications starts en `4,3 seconds` using AdoptOpenJDK 1.8.0_222-b10:
 
 ```
-Started PetClinicApplication in 5.54 seconds (JVM running for 5.902)
+Started PetClinicApplication in 4.317 seconds (JVM running for 4.976)
 ```
 
 # Memory usage
@@ -104,16 +120,16 @@ YourKit. Measure the heap after executing Garbage Collector (GC).
 
 ![jconsole-result](jconsole/result.png)
 
-With no load the application's heap consumption is around `60MB` . However, the memory consumption is bigger than just the
+With no load the application's heap consumption is around `45MB` . However, the memory consumption is bigger than just the
 heap, so let's measure it using ``ps`` command:
 
 ```
-Inigos-MacBook-Pro:spring-boot-docker-size inigo$ ps aux 14526
+Inigos-MacBook-Pro:spring-boot-docker-size inigo$ ps aux 67118
 USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
-inigo   14526   0.0  4.0 10241740 669648 s004  S+    4:25PM   0:33.05 /usr/bin/java -jar target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
+inigo    67118   0.0  3.3 10205612 561380 s000  S+    2:52PM   0:24.84 java -jar -Dspring.profiles.active=mysql target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
 ```
 
-We can see that PetClinic's process actually is using almost `650MB` of memory.  
+We can see that PetClinic's process actually is using almost `560MB` of memory.  
 
 > Interesting resource about measuring Spring Boot: https://spring.io/blog/2015/12/10/spring-boot-memory-performance
 
@@ -124,9 +140,9 @@ We can see that PetClinic's process actually is using almost `650MB` of memory.
 | Spring Boot App disk usage                        | 43M               |
 | Spring Boot App disk usage (without dependencies) | 371KB             |
 | Docker Container disk usage                       | 136MB             |
-| Spring Boot App startup time                      | 5,54 seconds      |
-| Spring Boot App heap consumption                  | 60MB              |
-| Spring Boot App memory usage                      | 650MB             |
+| Spring Boot App startup time                      | 4,3 seconds       |
+| Spring Boot App heap consumption                  | 45MB              |
+| Spring Boot App memory usage                      | 560MB             |
 
 # Credits
 
